@@ -1,33 +1,42 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-const userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema(
+  {
     email: {
-        type: String,
-        required: [true, "Email is required"],
-        unique: [true, "Email already exist"],
-        match: [/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, "Please fill the valid email"]
-    }, 
+      type: String,
+      required: [true, 'Email is required'],
+      unique: [true, 'Email already exist'],
+      match: [
+        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+        'Please fill the valid email'
+      ]
+    },
     userName: {
-        type: String,
-        required: [true, "User Name is required"],
-        unique: [true, "User Name already exist"],
-        match: [/^[a-zA-Z0-9]+/, "User name must contain only letters and numbers"]
+      type: String,
+      required: [true, 'User Name is required'],
+      unique: [true, 'User Name already exist'],
+      match: [
+        /^[a-zA-Z0-9]+/,
+        'User name must contain only letters and numbers'
+      ]
     },
-    password:{
-        type:String,
-        required: [true, "Password is required"],
+    password: {
+      type: String,
+      required: [true, 'Password is required']
     },
-    avatar:{
-        type:String
+    avatar: {
+      type: String
     }
-}, {timestamps: true});
+  },
+  { timestamps: true }
+);
 
-userSchema.pre('save', function saveUser(next){
-    const user = this;
-    user.avatar = `https://robohash.org/${user.userName}`;
-    next();
-})
+userSchema.pre('save', function saveUser(next) {
+  const user = this;
+  user.avatar = `https://robohash.org/${user.userName}`;
+  next();
+});
 
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model('User', userSchema);
 
 export default User;
