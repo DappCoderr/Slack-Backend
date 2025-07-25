@@ -1,4 +1,4 @@
-export default crudRepository = (model) => {
+export const crudRepository = (model) => {
   return {
     create: async function (data) {
       const newdoc = await model.create(data);

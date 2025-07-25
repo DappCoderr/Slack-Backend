@@ -1,5 +1,5 @@
 import User from '../schema/user';
-import crudRepository from './crudRepository';
+import { crudRepository } from './crudRepository';
 
 const userRepository = {
   ...crudRepository(User),

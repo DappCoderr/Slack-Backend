@@ -15,8 +15,7 @@ export const signUpService = async (data) => {
         error.message
       );
     }
-  }
-  if (error.name === 'MongoServerError' && error.code === 11000) {
+    if (error.name === 'MongoServerError' && error.code === 11000) {
     throw new ValidationError(
       {
         error: ['A user with same email or username already exists']
@@ -24,4 +23,6 @@ export const signUpService = async (data) => {
       'A user with same email or username already exists'
     );
   }
+  }
+  
 };
