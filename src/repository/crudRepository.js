@@ -1,22 +1,22 @@
-export default crudRepository = () => {
+export default crudRepository = (model) => {
     return{
         create: async function(data) {
-            const newdoc = await this.create(data)
+            const newdoc = await model.create(data)
             return newdoc
         },
         getAll: async function(){
-            const data = await this.find()
+            const data = await model.find()
             return data
         },
         getById: async function(id){
-            const data = await this.findById(id)
+            const data = await model.findById(id)
             return data
         },
         update:async function(id, data){
-            return await this.findByIdAndUpdate(id, data, {new:true})
+            return await model.findByIdAndUpdate(id, data, {new:true})
         },
         delete: async function(id){
-            return await this.findByIdAndDelete(id)
+            return await model.findByIdAndDelete(id)
         }
     }
 }
