@@ -1,4 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
+
 import { customErrorResponse } from '../utils/common/responseObject';
 
 export const validate = (schema) => {
@@ -9,16 +10,17 @@ export const validate = (schema) => {
     } catch (error) {
       console.log('Validation error in zod validator: ', error.errors);
       let explanation = [];
-      let errorMessage = ""
+      let errorMessage = '';
       error.errors.forEach((key) => {
-        explanation.push(key.path[0] + "" + key.message);
-        errorMessage += ' : ' + key.path[0] + " " + key.message
+        explanation.push(key.path[0] + '' + key.message);
+        errorMessage += ' : ' + key.path[0] + ' ' + key.message;
       });
-      res
-        .status(StatusCodes.BAD_REQUEST)
-        .json(
-          customErrorResponse({ message: 'Validation error' + errorMessage, explanation: explanation })
-        );
+      res.status(StatusCodes.BAD_REQUEST).json(
+        customErrorResponse({
+          message: 'Validation error' + errorMessage,
+          explanation: explanation
+        })
+      );
     }
   };
 };
