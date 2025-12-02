@@ -4,15 +4,15 @@ import { crudRepository } from './crudRepository.js';
 const userRepo = crudRepository(User);
 
 export const getUserByEmail = async (email) => {
-  return userRepo.findOne({ email });
+  return userRepo.getByAnyField({ email });
 };
 
 export const getUserByName = async (name) => {
-  return userRepo.findOne({ name });
+  return userRepo.getByAnyField({ name });
 };
 
 export const getUserById = async (id) => {
-  return userRepo.findById(id);
+  return userRepo.getById(id);
 };
 
 export const createUser = async (user) => {
@@ -20,7 +20,7 @@ export const createUser = async (user) => {
 };
 
 export const getUsers = async () => {
-  return userRepo.find();
+  return userRepo.getAll();
 };
 
 export const deleteUser = async (id) => {
