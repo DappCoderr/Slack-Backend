@@ -1,22 +1,16 @@
 export const crudRepository = (model) => {
   return {
-    create: async function (data) {
-      const newdoc = await model.create(data);
-      return newdoc;
-    },
-    getAll: async function () {
-      const data = await model.find();
-      return data;
-    },
-    getById: async function (id) {
-      const data = await model.findById(id);
-      return data;
-    },
-    update: async function (id, data) {
-      return await model.findByIdAndUpdate(id, data, { new: true });
-    },
-    delete: async function (id) {
-      return await model.findByIdAndDelete(id);
-    }
+    create: async (data) => model.create(data),
+
+    find: async () => model.find(),
+
+    findById: async (id) => model.findById(id),
+
+    updateById: async (id, data) =>
+      model.findByIdAndUpdate(id, data, { new: true }),
+
+    deleteById: async (id) => model.findByIdAndDelete(id),
+
+    findOne: async (query) => model.findOne(query)
   };
 };
