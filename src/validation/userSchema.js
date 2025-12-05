@@ -6,3 +6,10 @@ export const userSignupSchema = () =>
     username: z.string.min(3),
     password: z.string()
   });
+
+  export const userSignInSchema = () =>
+  z.object({
+    email: z.string.email(),
+    password: z.string()
+  });
+

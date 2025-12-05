@@ -1,7 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
-
-import { signUpService } from '../service/userService';
-import { customErrorResponse, successResponse} from '../utils/common/responseObject';
+import { signInService, signUpService } from '../service/userService';
+import {customErrorResponse, internalServerError, successResponse} from '../utils/common/responseObject';
 
 export const signUp = async (req, res) => {
   try {
@@ -14,7 +13,20 @@ export const signUp = async (req, res) => {
     if (error.statusCode) {
       return res.status(error.statusCode).json(customErrorResponse(error));
     }
-
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json;
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(internalServerError(error));
   }
 };
+
+export const signIn = async(req, res) => {
+  try {
+    const response = await signInService(req.body)
+    return res.status(StatusCodes.CREATED).json(successResponse(response, "User signed successfully"))
+    
+  } catch (error) {
+    console.log("SignIn error: ", error)
+    if (error.statusCode) {
+      return res.status(error.statusCode).json(customErrorResponse(error));
+    }
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(internalServerError(error));
+  }
+}

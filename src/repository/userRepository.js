@@ -3,7 +3,6 @@ import { crudRepository } from './crudRepository.js';
 
 const userRepository = {
   ...crudRepository(User)
-}
+};
 
-export default userRepository
-
+export default userRepository;
