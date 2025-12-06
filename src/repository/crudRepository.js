@@ -11,6 +11,6 @@ export const crudRepository = (model) => {
 
     deleteById: async (id) => model.findByIdAndDelete(id),
 
-    getByAnyField: async (query) => model.findOne(query)
+    // getByAnyField: async (query) => model.findOne({query})
   };
 };
