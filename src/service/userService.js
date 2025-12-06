@@ -1,9 +1,10 @@
-import { StatusCodes } from 'http-status-codes';
-import userRepository from '../repository/userRepository';
-import ClientError from '../utils/errors/clientError';
-import ValidationError from '../utils/errors/validationError';
 import bcrypt from 'bcrypt';
-import { createJWT } from '../utils/common/authUtils';
+import { StatusCodes } from 'http-status-codes';
+
+import userRepository from '../repository/userRepository.js';
+import { createJWT } from '../utils/common/authUtils.js';
+import ClientError from '../utils/errors/clientError.js';
+import ValidationError from '../utils/errors/validationError.js';
 
 export const signUpService = async (data) => {
   try {
@@ -32,7 +33,7 @@ export const signUpService = async (data) => {
 
 export const signInService = async (data) => {
   try {
-    const user = await userRepository.getByAnyField(data.email);
+    const user = await userRepository.getByEmail(data.email);
     if (!user) {
       throw new ClientError({
         explanation: 'Invalid data sent from the user',
