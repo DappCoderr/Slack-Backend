@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 
-import { customErrorResponse } from '../utils/common/responseObject';
+import { customErrorResponse } from '../utils/common/responseObject.js';
 
 export const validate = (schema) => {
   return async (req, res, next) => {
@@ -8,11 +8,10 @@ export const validate = (schema) => {
       await schema.parseAsync(req.body);
       next();
     } catch (error) {
-      console.log('Validation error in zod validator: ', error.errors);
       let explanation = [];
       let errorMessage = '';
       error.errors.forEach((key) => {
-        explanation.push(key.path[0] + '' + key.message);
+        explanation.push(key.path[0] + ' ' + key.message);
         errorMessage += ' : ' + key.path[0] + ' ' + key.message;
       });
       res.status(StatusCodes.BAD_REQUEST).json(
