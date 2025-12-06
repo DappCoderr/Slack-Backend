@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
-import { JWT_SECRET, JWT_EXPIRY } from '../../config/server_config.js';
+
+import { JWT_EXPIRY,JWT_SECRET } from '../../config/server_config.js';
 
 export const createJWT = (payload) => {
   return jwt.sign(payload, JWT_SECRET, {

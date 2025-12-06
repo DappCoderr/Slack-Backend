@@ -1,4 +1,4 @@
-export const internalServerError = (error) => {
+export const internalErrorResponse = (error) => {
   return {
     success: false,
     err: error,
@@ -9,7 +9,7 @@ export const internalServerError = (error) => {
 
 export const customErrorResponse = (error) => {
   if (!error.message && !error.explanation) {
-    return internalServerError(error);
+    return internalErrorResponse(error);
   }
   return {
     success: false,
