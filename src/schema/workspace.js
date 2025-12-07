@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-const {ObjectId} = mongoose.Types.ObjectId
+const { ObjectId } = mongoose.Types.ObjectId;
 
 const workspaceSchema = new mongoose.Schema({
   name: {
