@@ -11,20 +11,20 @@ const workspaceSchema = new mongoose.Schema({
   },
   members: [
     {
-      membersId: {
+      userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
       },
       role: {
         type: String,
-        enum: ['Admin', 'Member'],
+        enum: ['Owner', 'Admin', 'Member', 'Guest'],
         default: 'Member'
       }
     }
   ],
   joinCode: {
     type: String,
-    requied: [true, 'Join code is required']
+    required: [true, 'Join code is required']
   },
   channels: [
     {

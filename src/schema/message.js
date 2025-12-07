@@ -17,9 +17,9 @@ const messageSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: [true, 'Sender id is required']
-  }
-});
+  },
+}, {timestamps:true});
 
 const Message = mongoose.model('Message', messageSchema);
 
-export default Message();
+export default Message;
