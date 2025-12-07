@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+const {ObjectId} = mongoose.Types.ObjectId
 
 const messageSchema = new mongoose.Schema({
   body: {
@@ -9,12 +10,12 @@ const messageSchema = new mongoose.Schema({
     type: String
   },
   channelId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: ObjectId,
     ref: 'Channel',
     required: [true, 'Channel id is required']
   },
   senderId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: ObjectId,
     ref: 'User',
     required: [true, 'Sender id is required']
   },

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+const {ObjectId} = mongoose.Types.ObjectId
 
 const workspaceSchema = new mongoose.Schema({
   name: {
@@ -12,7 +13,7 @@ const workspaceSchema = new mongoose.Schema({
   members: [
     {
       userId: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: ObjectId,
         ref: 'User'
       },
       role: {
@@ -28,7 +29,7 @@ const workspaceSchema = new mongoose.Schema({
   },
   channels: [
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: ObjectId,
       ref: 'Channel'
     }
   ]
