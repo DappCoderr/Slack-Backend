@@ -9,7 +9,7 @@ export const crudRepository = (model) => {
     updateById: async (id, data) =>
       model.findByIdAndUpdate(id, data, { new: true }),
 
-    deleteById: async (id) => model.findByIdAndDelete(id),
+    deleteById: async (id) => model.findByIdAndDelete(id)
 
     // getByAnyField: async (query) => model.findOne({query})
   };

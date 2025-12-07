@@ -7,7 +7,7 @@ const userRepository = {
   getByEmail: async function (email) {
     const user = await User.findOne({ email });
     return user;
-  },
+  }
 };
 
 export default userRepository;
