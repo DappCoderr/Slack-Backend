@@ -1,9 +1,9 @@
 import { StatusCodes } from 'http-status-codes';
+import mongoose from 'mongoose';
+
 import Workspace from '../schema/workspace.js';
 import ClientError from '../utils/errors/clientError.js';
 import { crudRepository } from './crudRepository.js';
-import mongoose from 'mongoose';
-import Channel from '../schema/channel.js';
 import channelRepository from './channelRepository.js';
 
 const workspaceRepository = {
@@ -109,12 +109,12 @@ const workspaceRepository = {
       });
     }
 
-    const isChannelNameExist = await Workspace.channels.find(channels => {
-        channels.name === channelName
-    })
+    const isChannelNameExist = await Workspace.channels.find((channels) => {
+      channels.name === channelName;
+    });
 
-    if(isChannelNameExist){
-        throw new ClientError({
+    if (isChannelNameExist) {
+      throw new ClientError({
         message: 'Channel already exist in workspace',
         explanation: 'Invalid data sent from the client',
         statusCode: StatusCodes.FORBIDDEN
@@ -133,7 +133,9 @@ const workspaceRepository = {
   },
 
   fetchAllWorkspaceByUserId: async function (userId) {
-    const workspaces = await Workspace.find({'members.userId': userId}).populate('members.userId', 'email username avatar');
+    const workspaces = await Workspace.find({
+      'members.userId': userId
+    }).populate('members.userId', 'email username avatar');
     return workspaces;
   }
 };
