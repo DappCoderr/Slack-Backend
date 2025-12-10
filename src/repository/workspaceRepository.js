@@ -1,10 +1,11 @@
 import { StatusCodes } from 'http-status-codes';
 import mongoose from 'mongoose';
 
+import User from '../schema/user.js';
 import Workspace from '../schema/workspace.js';
 import ClientError from '../utils/errors/clientError.js';
-import { crudRepository } from './crudRepository.js';
 import channelRepository from './channelRepository.js';
+import { crudRepository } from './crudRepository.js';
 
 const workspaceRepository = {
   ...crudRepository(Workspace),
@@ -51,8 +52,9 @@ const workspaceRepository = {
       });
     }
 
-    const workspaceExists = await Workspace.exists({ _id: workspaceId });
-    if (!workspaceExists) {
+    const workspace = await Workspace.findById(workspaceId);
+
+    if (!workspace) {
       throw new ClientError({
         message: 'Workspace not found',
         explanation: 'Invalid data sent from the client',
@@ -69,15 +71,14 @@ const workspaceRepository = {
       });
     }
 
-    const isUserAlreadyExistInWorkspace = await Workspace.members.find(
-      (members) => {
-        members.userId === userId;
-      }
+    const isUserAlreadyExistInWorkspace = workspace.members.some(
+      (member) => member.userId.toString() === userId.toString()
     );
+
     if (isUserAlreadyExistInWorkspace) {
       throw new ClientError({
-        message: 'User already exist in workspace',
-        explanation: 'Invalid data sent from the client',
+        message: 'User already exists in workspace',
+        explanation: 'Duplicate member found',
         statusCode: StatusCodes.FORBIDDEN
       });
     }
@@ -100,8 +101,10 @@ const workspaceRepository = {
       });
     }
 
-    const workspaceExists = await Workspace.exists({ _id: workspaceId });
-    if (!workspaceExists) {
+    const workspace =
+      await Workspace.findById(workspaceId).populate('channels');
+
+    if (!workspace) {
       throw new ClientError({
         message: 'Workspace not found',
         explanation: 'Provided workspaceId does not exist',
@@ -109,19 +112,19 @@ const workspaceRepository = {
       });
     }
 
-    const isChannelNameExist = await Workspace.channels.find((channels) => {
-      channels.name === channelName;
-    });
+    const isChannelNameExist = workspace.channels.some(
+      (ch) => ch.name.toLowerCase() === channelName.toLowerCase()
+    );
 
     if (isChannelNameExist) {
       throw new ClientError({
-        message: 'Channel already exist in workspace',
-        explanation: 'Invalid data sent from the client',
+        message: 'Channel already exists in workspace',
+        explanation: 'Duplicate channel name',
         statusCode: StatusCodes.FORBIDDEN
       });
     }
 
-    const newChannel = await channelRepository.create(channelName);
+    const newChannel = await channelRepository.create({ name: channelName });
 
     const updatedWorkspace = await Workspace.findOneAndUpdate(
       { _id: workspaceId },
