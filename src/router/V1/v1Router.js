@@ -1,11 +1,11 @@
 import express from 'express';
 
-import message from './message.js';
 import user from './users.js';
+import workspace from './workspace.js';
 
 const router = express.Router();
 
-router.use('/message', message);
+router.use('/workspaces', workspace);
 router.use('/users', user);
 
 export default router;
