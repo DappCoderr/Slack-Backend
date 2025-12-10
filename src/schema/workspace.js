@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-const { ObjectId } = mongoose.Types.ObjectId;
 
 const workspaceSchema = new mongoose.Schema({
   name: {
@@ -13,12 +12,12 @@ const workspaceSchema = new mongoose.Schema({
   members: [
     {
       userId: {
-        type: ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
       },
       role: {
         type: String,
-        enum: ['Owner', 'Admin', 'Member', 'Guest'],
+        enum: ['Admin', 'Member', 'Guest'],
         default: 'Member'
       }
     }
@@ -29,11 +28,11 @@ const workspaceSchema = new mongoose.Schema({
   },
   channels: [
     {
-      type: ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'Channel'
     }
   ]
-});
+}, { timestamps: true });
 
 const Workspace = mongoose.model('Workspace', workspaceSchema);
 
