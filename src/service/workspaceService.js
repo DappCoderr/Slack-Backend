@@ -1,19 +1,26 @@
-import workspaceRepository from "../repository/workspaceRepository"
-import {v4 as uuidv4} from "uuid"
+import { v4 as uuidv4 } from 'uuid';
 
-export const createWorkspaceService = async(workspaceObj) => {
+import workspaceRepository from '../repository/workspaceRepository.js';
 
-    const joinCode = uuidv4().substring(0.6)
+export const createWorkspaceService = async (workspaceObj) => {
+  const joinCode = uuidv4().substring(0, 6);
 
-    const workspace = await workspaceRepository.create({
-        name: workspaceObj.name,
-        description: workspaceObj.description,
-        joinCode
-    })
+  const response = await workspaceRepository.create({
+    name: workspaceObj.name,
+    description: workspaceObj.description,
+    joinCode
+  });
 
-    workspaceRepository.addMemberToWorkspace(workspace._id, workspace.owner, "admin")
+  await workspaceRepository.addMemberToWorkspace(
+    response._id,
+    workspaceObj.owner,
+    'Admin'
+  );
 
-    workspaceRepository.addChannelToWorkspace(workspace._id, 'general')
+  const updatedResponse = await workspaceRepository.addChannelToWorkspace(
+    response._id,
+    'general'
+  );
 
-    return workspace
-}
+  return updatedResponse;
+};
