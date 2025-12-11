@@ -6,9 +6,23 @@ export const crudRepository = (model) => {
 
     getById: async (id) => model.findById(id),
 
+    delete: async function (id) {
+      const response = await model.findByIdAndDelete(id);
+      return response;
+    },
+
     updateById: async (id, data) =>
       model.findByIdAndUpdate(id, data, { new: true }),
 
-    deleteById: async (id) => model.findByIdAndDelete(id)
+    deleteById: async (id) => model.findByIdAndDelete(id),
+
+    deleteMany: async function (modelIds) {
+      const response = await model.deleteMany({
+        _id: {
+          $in: modelIds
+        }
+      });
+      return response;
+    }
   };
 };
