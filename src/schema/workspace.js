@@ -1,38 +1,41 @@
 import mongoose from 'mongoose';
 
-const workspaceSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, 'Workspace name is required'],
-    unique: true
-  },
-  description: {
-    type: String
-  },
-  members: [
-    {
-      userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-      },
-      role: {
-        type: String,
-        enum: ['Admin', 'Member', 'Guest'],
-        default: 'Member'
+const workspaceSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: [true, 'Workspace name is required'],
+      unique: true
+    },
+    description: {
+      type: String
+    },
+    members: [
+      {
+        userId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'User'
+        },
+        role: {
+          type: String,
+          enum: ['Admin', 'Member', 'Guest'],
+          default: 'Member'
+        }
       }
-    }
-  ],
-  joinCode: {
-    type: String,
-    required: [true, 'Join code is required']
+    ],
+    joinCode: {
+      type: String,
+      required: [true, 'Join code is required']
+    },
+    channels: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Channel'
+      }
+    ]
   },
-  channels: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Channel'
-    }
-  ]
-}, { timestamps: true });
+  { timestamps: true }
+);
 
 const Workspace = mongoose.model('Workspace', workspaceSchema);
 
