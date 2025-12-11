@@ -11,7 +11,7 @@ export const crudRepository = (model) => {
       return response;
     },
 
-    updateById: async (id, data) =>
+    update: async (id, data) =>
       model.findByIdAndUpdate(id, data, { new: true }),
 
     deleteById: async (id) => model.findByIdAndDelete(id),

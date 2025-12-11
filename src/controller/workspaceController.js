@@ -3,7 +3,8 @@ import { StatusCodes } from 'http-status-codes';
 import {
   createWorkspaceService,
   deleteWorkspaceService,
-  getAllWorkspaceWhereUserIsMemberOfService
+  getAllWorkspaceWhereUserIsMemberOfService,
+  updateWorkspaceService
 } from '../service/workspaceService.js';
 import {
   customErrorResponse,
@@ -75,3 +76,21 @@ export const deleteWorkspaceController = async (req, res) => {
   }
 };
 
+export const updateWorkspaceController = async(req, res) => {
+  try {
+    const data = req.body
+    const response = await updateWorkspaceService(req.params.workspaceId, data, req.id)
+    return res
+      .status(StatusCodes.OK)
+      .json(successResponse(response, 'Workspace Updated successfully'));
+  } catch (error) {
+    console.log(error);
+    if (error.statusCode) {
+      return res.status(error.statusCode).json(customErrorResponse(error));
+    }
+
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json(internalErrorResponse(error));
+  }
+}
