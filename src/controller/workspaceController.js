@@ -2,6 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 
 import {
   createWorkspaceService,
+  deleteWorkspaceService,
   getAllWorkspaceWhereUserIsMemberOfService
 } from '../service/workspaceService.js';
 import {
@@ -52,3 +53,25 @@ export const getWorkspacesUserIsMemberOfController = async (req, res) => {
       .json(internalErrorResponse(error));
   }
 };
+
+export const deleteWorkspaceController = async (req, res) => {
+  try {
+    const response = await deleteWorkspaceService(
+      req.params.workspaceId,
+      req.id
+    );
+    return res
+      .status(StatusCodes.OK)
+      .json(successResponse(response, 'Workspace deleted successfully'));
+  } catch (error) {
+    console.log(error);
+    if (error.statusCode) {
+      return res.status(error.statusCode).json(customErrorResponse(error));
+    }
+
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json(internalErrorResponse(error));
+  }
+};
+

@@ -6,11 +6,13 @@ import ClientError from '../utils/errors/clientError.js';
 import { StatusCodes } from 'http-status-codes';
 import channelRepository from '../repository/channelRepository.js';
 
-export const isUserAdminOfWorkspace = (workspace, userId) => {
-  return workspace.members.find((member) => {
-    member.userId === userId ||
-      (member.userId._id === userId && member.role === 'Admin');
-  });
+const isUserAdminOfWorkspace = (workspace, userId) => {
+  const response = workspace.members.find(
+    (member) =>
+      member.userId.toString() === userId ||
+      member.role === 'Admin'
+  );
+  return response;
 };
 
 export const createWorkspaceService = async (workspaceObj) => {
@@ -67,7 +69,7 @@ export const getAllWorkspaceWhereUserIsMemberOfService = async (userId) => {
   }
 };
 
-export const deleteWorkspaceServicee = async (workspaceId, userId) => {
+export const deleteWorkspaceService = async (workspaceId, userId) => {
   try {
     const workspace = await workspaceRepository.getById(workspaceId);
     if (!workspace) {
@@ -77,10 +79,11 @@ export const deleteWorkspaceServicee = async (workspaceId, userId) => {
         statusCode: StatusCodes.NOT_FOUND
       });
     }
-
     const isAllowed = isUserAdminOfWorkspace(workspace, userId);
+
     if (isAllowed) {
       await channelRepository.deleteMany(workspace.channels);
+
       const response = await workspaceRepository.delete(workspaceId);
       return response;
     }
@@ -90,7 +93,7 @@ export const deleteWorkspaceServicee = async (workspaceId, userId) => {
       statusCode: StatusCodes.UNAUTHORIZED
     });
   } catch (error) {
-    console.log('Error while deleting the workspace: ', error);
+    console.log(error);
     throw error;
   }
 };
