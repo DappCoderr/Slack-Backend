@@ -20,8 +20,10 @@ const isUserMemberOfWorkspace = (workspace, userId) => {
 };
 
 const isChannelAlreadyPartOfWorkspace = (workspace, channelName) => {
-  return workspace.channels.find(channel => channel.name.toLowerCase() === channelName.toLowerCase())
-}
+  return workspace.channels.find(
+    (channel) => channel.name.toLowerCase() === channelName.toLowerCase()
+  );
+};
 
 export const createWorkspaceService = async (workspaceObj) => {
   try {
@@ -101,7 +103,7 @@ export const deleteWorkspaceService = async (workspaceId, userId) => {
       statusCode: StatusCodes.UNAUTHORIZED
     });
   } catch (error) {
-    console.log("Service error: Delete workspace: ", error);
+    console.log('Service error: Delete workspace: ', error);
     throw error;
   }
 };
@@ -130,14 +132,18 @@ export const getWorkspaceByJoinCodeService = async (joinCode, userId) => {
 
     return workspace;
   } catch (error) {
-     console.log("Service error: Get workspace by joinCode: ", error);
+    console.log('Service error: Get workspace by joinCode: ', error);
     throw error;
   }
 };
 
-export const updateWorkspaceService = async (workspaceId, workspaceData, userId) => {
+export const updateWorkspaceService = async (
+  workspaceId,
+  workspaceData,
+  userId
+) => {
   try {
-    const workspace = await workspaceRepository.getById(workspaceId)
+    const workspace = await workspaceRepository.getById(workspaceId);
     if (!workspace) {
       throw new ClientError({
         explanation: 'Invalid data sent from the client',
@@ -162,15 +168,19 @@ export const updateWorkspaceService = async (workspaceId, workspaceData, userId)
 
     return updatedWorkspace;
   } catch (error) {
-     console.log("Service error: Update workspace: ", error);
+    console.log('Service error: Update workspace: ', error);
     throw error;
   }
 };
 
-
-export const addMemberToWorkspace = async (workspaceId, userId, memberId, role) => {
+export const addMemberToWorkspaceService = async (
+  workspaceId,
+  userId,
+  memberId,
+  role
+) => {
   try {
-    const workspace = await workspaceRepository.getById(workspaceId)
+    const workspace = await workspaceRepository.getById(workspaceId);
     if (!workspace) {
       throw new ClientError({
         explanation: 'Invalid data sent from the client',
@@ -197,7 +207,7 @@ export const addMemberToWorkspace = async (workspaceId, userId, memberId, role) 
       });
     }
 
-    const isValidUser = await userRepository.getById(memberId)
+    const isValidUser = await userRepository.getById(memberId);
     if (!isValidUser) {
       throw new ClientError({
         explanation: 'User is not a valid user',
@@ -206,19 +216,26 @@ export const addMemberToWorkspace = async (workspaceId, userId, memberId, role) 
       });
     }
 
-    const updatedWorkspace = await workspaceRepository.addMemberToWorkspace(workspaceId, memberId, role)
-    
+    const updatedWorkspace = await workspaceRepository.addMemberToWorkspace(
+      workspaceId,
+      memberId,
+      role
+    );
+
     return updatedWorkspace;
   } catch (error) {
-     console.log("Service error: Update workspace: ", error);
+    console.log('Service error: Update workspace: ', error);
     throw error;
   }
 };
 
-
-export const addChannelToWorkspace = async (workspaceId, userId, channelName) => {
+export const addChannelToWorkspaceService = async (
+  workspaceId,
+  userId,
+  channelName
+) => {
   try {
-    const workspace = await workspaceRepository.getById(workspaceId)
+    const workspace = await workspaceRepository.getById(workspaceId);
     if (!workspace) {
       throw new ClientError({
         explanation: 'Invalid data sent from the client',
@@ -236,7 +253,10 @@ export const addChannelToWorkspace = async (workspaceId, userId, channelName) =>
       });
     }
 
-    const isChannelPartOfWorkspace = isChannelAlreadyPartOfWorkspace(workspace, channelName)
+    const isChannelPartOfWorkspace = isChannelAlreadyPartOfWorkspace(
+      workspace,
+      channelName
+    );
 
     if (isChannelPartOfWorkspace) {
       throw new ClientError({
@@ -246,10 +266,13 @@ export const addChannelToWorkspace = async (workspaceId, userId, channelName) =>
       });
     }
 
-    const response = await workspaceRepository.addChannelToWorkspace(workspaceId, channelName)
-    return response
+    const response = await workspaceRepository.addChannelToWorkspace(
+      workspaceId,
+      channelName
+    );
+    return response;
   } catch (error) {
-     console.log("Service error: Update workspace: ", error);
+    console.log('Service error: Update workspace: ', error);
     throw error;
   }
 };
