@@ -25,8 +25,8 @@ router.post(
   validate(createWorkspaceSchema),
   createWorkspace
 );
-router.post('/:workspaceId', isAuthenticated, addMemberToWorkspaceController);
-router.post('/:workspaceId', isAuthenticated, addChannelToWorkspaceController);
+router.post('/:workspaceId/members', isAuthenticated, addMemberToWorkspaceController);
+router.post('/:workspaceId/channels', isAuthenticated, addChannelToWorkspaceController);
 router.put(
   '/:workspaceId',
   isAuthenticated,
