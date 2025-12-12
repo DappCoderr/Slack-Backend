@@ -1,15 +1,16 @@
+import { StatusCodes } from 'http-status-codes';
 import { v4 as uuidv4 } from 'uuid';
 
-import workspaceRepository from '../repository/workspaceRepository.js';
-import ValidationError from '../utils/errors/validationError.js';
-import ClientError from '../utils/errors/clientError.js';
-import { StatusCodes } from 'http-status-codes';
 import channelRepository from '../repository/channelRepository.js';
 import userRepository from '../repository/userRepository.js';
+import workspaceRepository from '../repository/workspaceRepository.js';
+import ClientError from '../utils/errors/clientError.js';
+import ValidationError from '../utils/errors/validationError.js';
 
 const isUserAdminOfWorkspace = (workspace, userId) => {
-  return workspace.members.find(
-    (member) => member.userId.toString() === userId || member.role === 'Admin'
+  return workspace.members.find(member =>
+    member.userId?.toString() === userId?.toString() &&
+    member.role === 'Admin'
   );
 };
 
@@ -21,7 +22,7 @@ const isUserMemberOfWorkspace = (workspace, userId) => {
 
 const isChannelAlreadyPartOfWorkspace = (workspace, channelName) => {
   return workspace.channels.find(
-    (channel) => channel.name.toLowerCase() === channelName.toLowerCase()
+    (channel) => channel.name === channelName
   );
 };
 
