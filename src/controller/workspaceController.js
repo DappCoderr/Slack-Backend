@@ -1,6 +1,8 @@
 import { StatusCodes } from 'http-status-codes';
 
 import {
+  addChannelToWorkspaceService,
+  addMemberToWorkspaceService,
   createWorkspaceService,
   deleteWorkspaceService,
   getAllWorkspaceWhereUserIsMemberOfService,
@@ -76,10 +78,14 @@ export const deleteWorkspaceController = async (req, res) => {
   }
 };
 
-export const updateWorkspaceController = async(req, res) => {
+export const updateWorkspaceController = async (req, res) => {
   try {
-    const data = req.body
-    const response = await updateWorkspaceService(req.params.workspaceId, data, req.id)
+    const data = req.body;
+    const response = await updateWorkspaceService(
+      req.params.workspaceId,
+      data,
+      req.id
+    );
     return res
       .status(StatusCodes.OK)
       .json(successResponse(response, 'Workspace Updated successfully'));
@@ -93,4 +99,55 @@ export const updateWorkspaceController = async(req, res) => {
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json(internalErrorResponse(error));
   }
-}
+};
+
+export const addMemberToWorkspaceController = async (req, res) => {
+  try {
+    const { memberId, role } = req.body;
+    const response = await addMemberToWorkspaceService(
+      req.params.workspaceId,
+      req.id,
+      memberId,
+      role || 'Member'
+    );
+    res
+      .status(StatusCodes.OK)
+      .json(
+        successResponse(response, 'Channel addd to workspace successfully')
+      );
+  } catch (error) {
+    console.log(error);
+    if (error.statusCode) {
+      return res.status(error.statusCode).json(customErrorResponse(error));
+    }
+
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json(internalErrorResponse(error));
+  }
+};
+
+export const addChannelToWorkspaceController = async (req, res) => {
+  try {
+    const { channelName } = req.body;
+    const response = await addChannelToWorkspaceService(
+      req.params.workspaceId,
+      req.id,
+      channelName
+    );
+    res
+      .status(StatusCodes.OK)
+      .json(
+        successResponse(response, 'Channel addd to workspace successfully')
+      );
+  } catch (error) {
+    console.log(error);
+    if (error.statusCode) {
+      return res.status(error.statusCode).json(customErrorResponse(error));
+    }
+
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json(internalErrorResponse(error));
+  }
+};
