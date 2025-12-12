@@ -8,9 +8,10 @@ import ClientError from '../utils/errors/clientError.js';
 import ValidationError from '../utils/errors/validationError.js';
 
 const isUserAdminOfWorkspace = (workspace, userId) => {
-  return workspace.members.find(member =>
-    member.userId?.toString() === userId?.toString() &&
-    member.role === 'Admin'
+  return workspace.members.find(
+    (member) =>
+      member.userId?.toString() === userId?.toString() &&
+      member.role === 'Admin'
   );
 };
 
@@ -21,9 +22,7 @@ const isUserMemberOfWorkspace = (workspace, userId) => {
 };
 
 const isChannelAlreadyPartOfWorkspace = (workspace, channelName) => {
-  return workspace.channels.find(
-    (channel) => channel.name === channelName
-  );
+  return workspace.channels.find((channel) => channel.name === channelName);
 };
 
 export const createWorkspaceService = async (workspaceObj) => {
