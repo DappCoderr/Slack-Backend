@@ -1,13 +1,18 @@
 import express from 'express';
 
 import {
+  addChannelToWorkspaceController,
+  addMemberToWorkspaceController,
   createWorkspace,
   deleteWorkspaceController,
   getWorkspacesUserIsMemberOfController,
   updateWorkspaceController
 } from '../../controller/workspaceController.js';
 import { isAuthenticated } from '../../middleware/isAuthenticated.js';
-import { createWorkspaceSchema, updateWorkspaceSchema } from '../../validation/workspaceSchema.js';
+import {
+  createWorkspaceSchema,
+  updateWorkspaceSchema
+} from '../../validation/workspaceSchema.js';
 import { validate } from '../../validation/zodValidator.js';
 
 const router = express.Router();
@@ -20,9 +25,14 @@ router.post(
   validate(createWorkspaceSchema),
   createWorkspace
 );
-
-router.put('/:workspaceId', isAuthenticated, validate(updateWorkspaceSchema), updateWorkspaceController);
-
+router.post('/:workspaceId', isAuthenticated, addMemberToWorkspaceController);
+router.post('/:workspaceId', isAuthenticated, addChannelToWorkspaceController);
+router.put(
+  '/:workspaceId',
+  isAuthenticated,
+  validate(updateWorkspaceSchema),
+  updateWorkspaceController
+);
 router.delete('/:workspaceId', isAuthenticated, deleteWorkspaceController);
 
 export default router;
