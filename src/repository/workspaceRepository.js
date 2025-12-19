@@ -124,7 +124,10 @@ const workspaceRepository = {
       });
     }
 
-    const newChannel = await channelRepository.create({ name: channelName, workspaceId: workspaceId });
+    const newChannel = await channelRepository.create({
+      name: channelName,
+      workspaceId: workspaceId
+    });
 
     const updatedWorkspace = await Workspace.findOneAndUpdate(
       { _id: workspaceId },

@@ -5,7 +5,8 @@ import { StatusCodes } from 'http-status-codes';
 
 export const getChannelByIdService = async (channelId, userId) => {
   try {
-    const channel = await channelRepository.getChannelWithWorkspaceDetails(channelId);
+    const channel =
+      await channelRepository.getChannelWithWorkspaceDetails(channelId);
     if (!channel || !channel.workspaceId) {
       throw ClientError({
         explanation: 'Invalid data sent from the client',
@@ -14,14 +15,15 @@ export const getChannelByIdService = async (channelId, userId) => {
       });
     }
 
-    const isUserMember = isUserMemberOfWorkspace(channel.workspaceId ,userId)
+    const isUserMember = isUserMemberOfWorkspace(channel.workspaceId, userId);
 
-    if(!isUserMember){
+    if (!isUserMember) {
       throw new ClientError({
-        explanation: 'User is either not a memeber or an admin of the workspace',
+        explanation:
+          'User is either not a memeber or an admin of the workspace',
         message: 'User is not allowed to access the workspace',
         statusCode: StatusCodes.UNAUTHORIZED
-      })
+      });
     }
     return channel;
   } catch (error) {

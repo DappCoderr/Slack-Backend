@@ -3,8 +3,8 @@ import { crudRepository } from './crudRepository.js';
 
 const channelRepository = {
   ...crudRepository(Channel),
-  getChannelWithWorkspaceDetails: async function(channelId) {
-    return await Channel.findById(channelId).populate('workspaceId')
+  getChannelWithWorkspaceDetails: async function (channelId) {
+    return await Channel.findById(channelId).populate('workspaceId');
   }
 };
 
