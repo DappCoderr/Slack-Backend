@@ -1,6 +1,23 @@
+import channelRepository from '../repository/channelRepository';
 import messageRepository from '../repository/messageRepository';
+import ClientError from '../utils/errors/clientError';
+import { isUserMemberOfWorkspace } from './workspaceService';
 
-export const getMessageServide = async (messageParams, page, limit) => {
+export const getMessageServide = async (messageParams, page, limit, user) => {
+  const channelDetails = await channelRepository.getChannelWithWorkspaceDetails(
+    messageParams.channelId
+  );
+  const workspace = await channelDetails.workspaceId;
+  const isMember = isUserMemberOfWorkspace(workspace, user);
+
+  if (!isMember) {
+    throw new ClientError({
+      explanation: 'User is not a member of the workspace',
+      message: 'User is not a member of the workspace',
+      statusCode: StatusCodes.UNAUTHORIZED
+    });
+  }
+
   const message = await messageRepository.getPaginatedMessaged(
     messageParams,
     page,
