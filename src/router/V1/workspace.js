@@ -5,7 +5,8 @@ import {
   addMemberToWorkspaceController,
   createWorkspace,
   deleteWorkspaceController,
-  getWorkspacesUserIsMemberOfController,
+  getWorkspaceDetailsByIdController,
+  getWorkspacesUserIsMemberController,
   updateWorkspaceController
 } from '../../controller/workspaceController.js';
 import { isAuthenticated } from '../../middleware/isAuthenticated.js';
@@ -17,7 +18,8 @@ import { validate } from '../../validation/zodValidator.js';
 
 const router = express.Router();
 
-router.get('/', isAuthenticated, getWorkspacesUserIsMemberOfController);
+router.get('/', isAuthenticated, getWorkspacesUserIsMemberController);
+router.get('/:workspaceId', isAuthenticated, getWorkspaceDetailsByIdController);
 
 router.post(
   '/',

@@ -15,7 +15,7 @@ const workspaceRepository = {
       .populate('members.memberId', 'username email avatar')
       .populate('channels');
 
-    return workspace
+    return workspace;
   },
 
   getWorkspaceByName: async function (name) {

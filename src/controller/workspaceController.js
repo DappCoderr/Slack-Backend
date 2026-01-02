@@ -5,8 +5,9 @@ import {
   addMemberToWorkspaceService,
   createWorkspaceService,
   deleteWorkspaceService,
-  getAllWorkspaceWhereUserIsMemberOfService,
-  updateWorkspaceService
+  getAllWorkspaceWhereUserIsMemberService,
+  updateWorkspaceService,
+  getWorkspaceDetailsByIdService
 } from '../service/workspaceService.js';
 import {
   customErrorResponse,
@@ -36,9 +37,9 @@ export const createWorkspace = async (req, res) => {
   }
 };
 
-export const getWorkspacesUserIsMemberOfController = async (req, res) => {
+export const getWorkspacesUserIsMemberController = async (req, res) => {
   try {
-    const response = await getAllWorkspaceWhereUserIsMemberOfService(req.id);
+    const response = await getAllWorkspaceWhereUserIsMemberService(req.id);
     return res
       .status(StatusCodes.OK)
       .json(successResponse(response, 'Workspace fetched successfully'));
@@ -56,6 +57,27 @@ export const getWorkspacesUserIsMemberOfController = async (req, res) => {
       .json(internalErrorResponse(error));
   }
 };
+
+export const getWorkspaceDetailsByIdController = async(req, res) => {
+  try {
+    const response = await getWorkspaceDetailsByIdService(
+      req.params.workspaceId,
+      req.user
+    );
+    return res
+      .status(StatusCodes.OK)
+      .json(successResponse(response, 'Workspace Details fetched successfully'));
+  } catch (error) {
+    console.log('Get workspace controller error', error);
+    if (error.statusCode) {
+      return res.status(error.statusCode).json(customErrorResponse(error));
+    }
+
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json(internalErrorResponse(error));
+  }
+}
 
 export const deleteWorkspaceController = async (req, res) => {
   try {
