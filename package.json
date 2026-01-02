@@ -17,6 +17,7 @@
   "dependencies": {
     "bcrypt": "^6.0.0",
     "bull": "^4.16.5",
+    "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "express": "^5.1.0",
