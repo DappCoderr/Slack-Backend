@@ -1,4 +1,11 @@
+import { StatusCodes } from 'http-status-codes';
+
 import { getMessageServide } from '../service/messageService';
+import {
+  customErrorResponse,
+  internalErrorResponse,
+  successResponse
+} from '../utils/common/responseObject';
 
 export const getMessageController = async (req, res) => {
   try {
@@ -10,7 +17,7 @@ export const getMessageController = async (req, res) => {
       req.query.limit || 20
     );
     return res
-      .status(StatusCode.OK)
+      .status(StatusCodes.OK)
       .json(successResponse(response, 'Message Fetched Successfully'));
   } catch (error) {
     console.log(error);
