@@ -68,7 +68,7 @@ export const createWorkspaceService = async (workspaceObj) => {
   }
 };
 
-export const getAllWorkspaceWhereUserIsMemberOfService = async (userId) => {
+export const getAllWorkspaceWhereUserIsMemberService = async (userId) => {
   try {
     const response =
       await workspaceRepository.fetchAllWorkspaceByUserId(userId);
