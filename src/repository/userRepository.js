@@ -7,6 +7,16 @@ const userRepository = {
   getByEmail: async function (email) {
     const user = await User.findOne({ email });
     return user;
+  },
+
+  getByUserName: async function (userName) {
+    const user = await User.findOne({ userName }).select('-password');
+    return user
+  },
+
+  getByToken: async function (token) {
+    const user = User.findOne({verificationToken: token})
+    return user
   }
 };
 
