@@ -1,3 +1,5 @@
+import { StatusCodes } from 'http-status-codes';
+
 import channelRepository from '../repository/channelRepository';
 import messageRepository from '../repository/messageRepository';
 import ClientError from '../utils/errors/clientError';
