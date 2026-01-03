@@ -58,15 +58,17 @@ export const getWorkspacesUserIsMemberController = async (req, res) => {
   }
 };
 
-export const getWorkspaceDetailsByIdController = async(req, res) => {
+export const getWorkspaceDetailsByIdController = async (req, res) => {
   try {
     const response = await getWorkspaceDetailsByIdService(
       req.params.workspaceId,
-      req.user
+      req.id
     );
     return res
       .status(StatusCodes.OK)
-      .json(successResponse(response, 'Workspace Details fetched successfully'));
+      .json(
+        successResponse(response, 'Workspace Details fetched successfully')
+      );
   } catch (error) {
     console.log('Get workspace controller error', error);
     if (error.statusCode) {
@@ -77,7 +79,7 @@ export const getWorkspaceDetailsByIdController = async(req, res) => {
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json(internalErrorResponse(error));
   }
-}
+};
 
 export const deleteWorkspaceController = async (req, res) => {
   try {
