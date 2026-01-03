@@ -12,7 +12,7 @@ const workspaceRepository = {
 
   getWorkspaceDetailsById: async function (workspaceId) {
     const workspace = await Workspace.findById(workspaceId)
-      .populate('members.memberId', 'username email avatar')
+      .populate('members.userId', 'username email avatar')
       .populate('channels');
 
     return workspace;
