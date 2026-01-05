@@ -6,9 +6,8 @@ import {
   createWorkspaceService,
   deleteWorkspaceService,
   getAllWorkspaceWhereUserIsMemberService,
-  updateWorkspaceService,
-  getWorkspaceDetailsByIdService
-} from '../service/workspaceService.js';
+  getWorkspaceDetailsByIdService,
+  updateWorkspaceService} from '../service/workspaceService.js';
 import {
   customErrorResponse,
   internalErrorResponse,
