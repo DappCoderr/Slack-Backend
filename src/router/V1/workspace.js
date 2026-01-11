@@ -12,7 +12,7 @@ import {
 import { isAuthenticated } from '../../middleware/isAuthenticated.js';
 import {
   createWorkspaceSchema,
-  updateWorkspaceSchema
+  // updateWorkspaceSchema
 } from '../../validation/workspaceSchema.js';
 import { validate } from '../../validation/zodValidator.js';
 
@@ -40,7 +40,7 @@ router.post(
 router.put(
   '/:workspaceId',
   isAuthenticated,
-  validate(updateWorkspaceSchema),
+  //validate(updateWorkspaceSchema),
   updateWorkspaceController
 );
 router.delete('/:workspaceId', isAuthenticated, deleteWorkspaceController);
