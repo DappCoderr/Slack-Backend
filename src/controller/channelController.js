@@ -7,7 +7,7 @@ import {
   internalErrorResponse
 } from '../utils/common/responseObject.js';
 
-export const getChannelController = async (req, res) => {
+export const getChannelByIdController = async (req, res) => {
   try {
     const response = await getChannelByIdService(req.params.channelId, req.id);
     res
