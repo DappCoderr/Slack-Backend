@@ -1,10 +1,10 @@
 import express from 'express';
 
-import { getChannelController } from '../../controller/channelController.js';
+import { getChannelByIdController } from '../../controller/channelController.js';
 import { isAuthenticated } from '../../middleware/isAuthenticated.js';
 
 const router = express.Router();
 
-router.get('/:channelId', isAuthenticated, getChannelController);
+router.get('/:channelId', isAuthenticated, getChannelByIdController);
 
 export default router;
