@@ -5,13 +5,12 @@ import {
   addMemberToWorkspaceController,
   createWorkspaceController,
   deleteWorkspaceController,
+  getWorkspaceByJoinCodeController,
   getWorkspaceDetailsByIdController,
   getWorkspacesUserIsMemberController,
-  updateWorkspaceController,
   joinWorkspaceController,
   resetJoinCodeController,
-  getWorkspaceByJoinCodeController
-} from '../../controller/workspaceController.js';
+  updateWorkspaceController} from '../../controller/workspaceController.js';
 import { isAuthenticated } from '../../middleware/isAuthenticated.js';
 import { createWorkspaceSchema} from '../../validation/workspaceSchema.js';
 import { validate } from '../../validation/zodValidator.js';
