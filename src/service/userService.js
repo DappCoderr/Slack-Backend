@@ -31,6 +31,38 @@ export const signUpService = async (data) => {
   }
 };
 
+export const verifyTokenService = async (token) => {
+  try {
+    const user = await userRepository.getByToken(token);
+    if (!user) {
+      throw new ClientError({
+        explanation: 'Invalid data sent from the client',
+        message: 'Invalid token',
+        statusCode: StatusCodes.BAD_REQUEST
+      });
+    }
+
+    // check if the token has expired or not
+    if (user.verificationTokenExpiry < Date.now()) {
+      throw new ClientError({
+        explanation: 'Invalid data sent from the client',
+        message: 'Token has expired',
+        statusCode: StatusCodes.BAD_REQUEST
+      });
+    }
+
+    user.isVerified = true;
+    user.verificationToken = null;
+    user.verificationTokenExpiry = null;
+    await user.save();
+
+    return user;
+  } catch (error) {
+    console.log('User service error', error);
+    throw error;
+  }
+};
+
 export const signInService = async (data) => {
   try {
     const user = await userRepository.getByEmail(data.email);
