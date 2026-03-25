@@ -5,6 +5,6 @@ export const createWorkspaceSchema = z.object({
 });
 
 export const updateWorkspaceSchema = z.object({
-  name: z.string().min(3).max(50),
+  name: z.string().min(3).max(50)
   // description: z.string().min(10).max(150)
 });
