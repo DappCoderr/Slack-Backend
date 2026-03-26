@@ -204,7 +204,7 @@ export const resetJoinCodeController = async (req, res) => {
   try {
     const response = await resetWorkspaceJoinCodeService(
       req.params.workspaceId,
-      req.user
+      req.id
     );
     return res
       .status(StatusCodes.OK)
