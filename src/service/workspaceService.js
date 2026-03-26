@@ -10,7 +10,8 @@ import ValidationError from '../utils/errors/validationError.js';
 const isUserAdminOfWorkspace = (workspace, userId) => {
   return workspace.members.find(
     (member) =>
-      member.userId?.toString() === userId?.toString() &&
+      (member.userId?.toString() === userId?.toString() ||
+      member.userId._id.toString() === userId?.toString()) &&
       member.role === 'Admin'
   );
 };
