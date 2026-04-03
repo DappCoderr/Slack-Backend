@@ -88,7 +88,7 @@ export const getWorkspaceByJoinCodeController = async (req, res) => {
   try {
     const response = await getWorkspaceByJoinCodeService(
       req.params.joinCode,
-      req.user
+      req.id
     );
     return res
       .status(StatusCodes.OK)
@@ -226,8 +226,9 @@ export const joinWorkspaceController = async (req, res) => {
     const response = await joinWorkspaceService(
       req.params.workspaceId,
       req.body.joinCode,
-      req.user
+      req.id
     );
+    console.log("controller layer hit response: ", response)
     return res
       .status(StatusCodes.OK)
       .json(successResponse(response, 'Joined workspace successfully'));
