@@ -346,7 +346,7 @@ export const joinWorkspaceService = async (workspaceId, joinCode, userId) => {
     const updatedWorkspace = await workspaceRepository.addMemberToWorkspace(
       workspaceId,
       userId,
-      'member'
+      'Member'
     );
 
     return updatedWorkspace;
