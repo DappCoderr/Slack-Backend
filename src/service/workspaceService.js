@@ -1,9 +1,11 @@
 import { StatusCodes } from 'http-status-codes';
 import { v4 as uuidv4 } from 'uuid';
 
+import { addEmailToMailQueue } from '../producers/mailQueueProducer.js';
 import channelRepository from '../repository/channelRepository.js';
 import userRepository from '../repository/userRepository.js';
 import workspaceRepository from '../repository/workspaceRepository.js';
+import { workspaceJoinMail } from '../utils/common/mailObject.js';
 import ClientError from '../utils/errors/clientError.js';
 import ValidationError from '../utils/errors/validationError.js';
 
@@ -11,7 +13,7 @@ const isUserAdminOfWorkspace = (workspace, userId) => {
   return workspace.members.find(
     (member) =>
       (member.userId?.toString() === userId?.toString() ||
-      member.userId._id.toString() === userId?.toString()) &&
+        member.userId._id.toString() === userId?.toString()) &&
       member.role === 'Admin'
   );
 };
@@ -269,6 +271,11 @@ export const addMemberToWorkspaceService = async (
       role
     );
 
+    addEmailToMailQueue({
+      ...workspaceJoinMail(workspace, isValidUser.username),
+      to: isValidUser.email
+    });
+
     return updatedWorkspace;
   } catch (error) {
     console.log('Service error: Update workspace: ', error);
@@ -326,7 +333,8 @@ export const addChannelToWorkspaceService = async (
 
 export const joinWorkspaceService = async (workspaceId, joinCode, userId) => {
   try {
-    const workspace = await workspaceRepository.getWorkspaceDetailsById(workspaceId);
+    const workspace =
+      await workspaceRepository.getWorkspaceDetailsById(workspaceId);
     if (!workspace) {
       throw new ClientError({
         explanation: 'Invalid data sent from the client',
@@ -348,6 +356,20 @@ export const joinWorkspaceService = async (workspaceId, joinCode, userId) => {
       userId,
       'Member'
     );
+
+    const isValidUser = await userRepository.getById(userId);
+    if (!isValidUser) {
+      throw new ClientError({
+        explanation: 'User is not a valid user',
+        message: 'User is not a valid user',
+        statusCode: StatusCodes.UNAUTHORIZED
+      });
+    }
+
+    addEmailToMailQueue({
+      ...workspaceJoinMail(workspace, isValidUser.username),
+      to: isValidUser.email
+    });
 
     return updatedWorkspace;
   } catch (error) {

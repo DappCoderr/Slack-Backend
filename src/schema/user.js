@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import mongoose from 'mongoose';
+import { v4 as uuidv4 } from 'uuid';
 
 const userSchema = new mongoose.Schema(
   {
@@ -51,6 +52,8 @@ userSchema.pre('save', function saveUser(next) {
     const hashedPassword = bcrypt.hashSync(user.password, SALT);
     user.password = hashedPassword;
     user.avatar = `https://robohash.org/${user.username}`;
+    user.verificationToken = uuidv4().substring(0, 10).toUpperCase();
+    user.verificationTokenExpiry = Date.now() + 3600000; // 1 hour
   }
   next();
 });

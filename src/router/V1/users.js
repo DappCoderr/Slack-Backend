@@ -1,6 +1,10 @@
 import express from 'express';
 
-import { signIn, signUp } from '../../controller/userController.js';
+import {
+  signIn,
+  signUp,
+  verifyEmailController
+} from '../../controller/userController.js';
 import {
   userSignInSchema,
   userSignUpSchema
@@ -11,5 +15,6 @@ const router = express.Router();
 
 router.post('/signup', validate(userSignUpSchema), signUp);
 router.post('/signin', validate(userSignInSchema), signIn);
+router.get('/verify/:token', verifyEmailController);
 
 export default router;

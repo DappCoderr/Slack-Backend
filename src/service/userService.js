@@ -1,14 +1,23 @@
 import bcrypt from 'bcrypt';
 import { StatusCodes } from 'http-status-codes';
 
+import { ENABLE_EMAIL_VERFICATION } from '../config/server_config.js';
+import { addEmailToMailQueue } from '../producers/mailQueueProducer.js';
 import userRepository from '../repository/userRepository.js';
 import { createJWT } from '../utils/common/authUtils.js';
+import { verifyEmailMail } from '../utils/common/mailObject.js';
 import ClientError from '../utils/errors/clientError.js';
 import ValidationError from '../utils/errors/validationError.js';
 
 export const signUpService = async (data) => {
   try {
     const newUser = await userRepository.create(data);
+    if (ENABLE_EMAIL_VERFICATION) {
+      addEmailToMailQueue({
+        ...verifyEmailMail(newUser.verificationToken),
+        to: newUser.email
+      });
+    }
     return newUser;
   } catch (error) {
     console.log('User servide error: ', error);
